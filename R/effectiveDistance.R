@@ -1,4 +1,4 @@
-#' Calculate effeciveDistance (eD) for habitat patches
+#' Calculate effectiveDistance (eD) for habitat patches
 #'
 #' @param habitats Raster with the effective seedrain, summed up for each patch.
 #' @param kernel kernel Dispersal kernel of the species.

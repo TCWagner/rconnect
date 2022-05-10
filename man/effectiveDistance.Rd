@@ -2,7 +2,7 @@
 % Please edit documentation in R/effectiveDistance.R
 \name{effectiveDistance}
 \alias{effectiveDistance}
-\title{Calculate effeciveDistance (eD) for habitat patches}
+\title{Calculate effectiveDistance (eD) for habitat patches}
 \usage{
 effectiveDistance(habitats, kernel, summarize = TRUE)
 }
@@ -17,7 +17,7 @@ effectiveDistance(habitats, kernel, summarize = TRUE)
 A raster or a summary table with the effective Distance (eD) for each Patch
 }
 \description{
-Calculate effeciveDistance (eD) for habitat patches
+Calculate effectiveDistance (eD) for habitat patches
 }
 \examples{
 data(habitats_lech)

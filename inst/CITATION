@@ -1,0 +1,19 @@
+citHeader("To cite rconnect in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "Effective Connectivity and effective Habitat Distance - A new metric to quantify habitat connectivity for plant species in riverscapes",
+  author   = c(
+    person("Thomas", "Wagner", email="wagner@tum.de", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-0457-367X")),
+    person("Romy", "Wöllner", , "romy.woellner@tum.de", role = c("aut"),
+           comment = c(ORCID = "XXX"))
+           ),
+  journal  = "Ecological Indicators",
+  year     = "2022",
+  volume   = 1,
+  number   = 0,
+  pages    = 1-6,
+  url      = "http://www.rooiklip.org",
+  textVersion = paste("Wagner, T.C.,& Wöllner, R. (2022): Effective Connectivity and effective Habitat Distance - A new metric to quantify habitat connectivity for plant species in riverscapes. Ecological Indicators")
+)

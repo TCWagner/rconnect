@@ -1,6 +1,6 @@
 #' Determines the effective Seed Rain (eS)
 #'
-#' @param habitatraster Raster containing patches of suitable habitats, coded with values > 0.
+#' @param habitats Raster containing patches of suitable habitats, coded with values > 0.
 #' @param kernel Dispersal kernel of the species.
 #' @param summarize If true, a summary table will be returned instead of a raster.
 #' @param fun A function used for summary. If summarize=TRUE and none is provided sum is used.
@@ -15,8 +15,8 @@
 #' eS <- effectiveSeedrain(habitats_lech, sddkernel_chondrilla, fun=sum)
 #'
 
-effectiveSeedrain <- function(habitatraster, kernel, summarize=TRUE, fun=NA){
-  rc <- raster::clump(habitatraster>0)#+1
+effectiveSeedrain <- function(habitats, kernel, summarize=TRUE, fun=NA){
+  rc <- raster::clump(habitats>0)#+1
 
   # create an empty template with extent of original raster
   template <- (rc>=0)*0
@@ -47,7 +47,7 @@ effectiveSeedrain <- function(habitatraster, kernel, summarize=TRUE, fun=NA){
 
 
   if(class(fun)=="function"){
-    rc <- raster::clump(habitatraster>=0)
+    rc <- raster::clump(habitats>=0)
     zs <- as.data.frame(raster::zonal(template, rc, fun=fun)) # evtl statt mean summe?
     rc2 <- raster::reclassify(rc, zs)
     result <- rc2

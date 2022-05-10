@@ -10,6 +10,8 @@ effectiveDistance(habitats, kernel, summarize = TRUE)
 \item{habitats}{Raster with the effective seedrain, summed up for each patch.}
 
 \item{kernel}{kernel Dispersal kernel of the species.}
+
+\item{summarize}{If TRUE, a table instead of a raster is returned.}
 }
 \value{
 A raster or a summary table with the effective Distance (eD) for each Patch

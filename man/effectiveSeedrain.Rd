@@ -4,10 +4,10 @@
 \alias{effectiveSeedrain}
 \title{Determines the effective Seed Rain (eS)}
 \usage{
-effectiveSeedrain(habitatraster, kernel, summarize = TRUE, fun = NA)
+effectiveSeedrain(habitats, kernel, summarize = TRUE, fun = NA)
 }
 \arguments{
-\item{habitatraster}{Raster containing patches of suitable habitats, coded with values > 0.}
+\item{habitats}{Raster containing patches of suitable habitats, coded with values > 0.}
 
 \item{kernel}{Dispersal kernel of the species.}
 

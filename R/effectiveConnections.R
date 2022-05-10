@@ -1,10 +1,11 @@
 #' Determine the effective Connections (eC) for all patches
 #'
-#' @param habitatraster Raster containing patches of suitable habitats, coded with values > 0.
+#' @param habitats Raster containing patches of suitable habitats, coded with values > 0.
 #' @param kernel Dispersal kernel of the species.
 #' @param threshold Minimum of eC at which two patches are connected.
-#' @param weight If true, the connection are weighted.
+#' @param weighted If true, the connection are weighted.
 #' @param cap If true, values larger than 1 are capped.
+#' @param summarize If TRUE, a table instead of a raster is returned.
 #'
 #' @return A table or raster with the effectiveConnectivity for each Patch
 #' @export
@@ -12,11 +13,11 @@
 #' @examples
 #' data(habitats_lech)
 #' sddkernel_chondrilla <- dispersalKernel(cellsize=5, radius=3, decay=0.19)
-#' eC <- effectiveConnections(habitats_lech, sddkernel_chondrilla, minp=0.01, cap=TRUE)
+#' eC <- effectiveConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01, cap=TRUE)
 #'
 
-effectiveConnections <- function(habitatraster, kernel, threshold=0.05, weight=FALSE, cap=TRUE, summarize=T){
-  rc <- raster::clump(habitatraster>0)
+effectiveConnections <- function(habitats, kernel, threshold=0.05, weighted=FALSE, cap=TRUE, summarize=T){
+  rc <- raster::clump(habitats>0)
 
   patches <- raster::cellStats(rc, max)
 
@@ -32,13 +33,13 @@ effectiveConnections <- function(habitatraster, kernel, threshold=0.05, weight=F
     targets <- targets * otherpatches
     # zonal statistics
 
-    if(weight==FALSE){
+    if(weighted==FALSE){
       targets <- targets > threshold
       res <- as.data.frame(raster::zonal(targets, rc, fun=max))
       #message("no weights")
     }
 
-    if(weight==TRUE){
+    if(weighted==TRUE){
       res <- as.data.frame(raster::zonal(targets, rc, fun=sum))
       res$value[res$value[]>1] <- 1 # make sure each habitat counts max as 1
     }
@@ -64,10 +65,10 @@ effectiveConnections <- function(habitatraster, kernel, threshold=0.05, weight=F
 
   # else reclassify and return raster
 
-  rc <- raster::clump(habitatraster>=0)
+  rc <- raster::clump(habitats>=0)
   rc2 <- raster::reclassify(rc, zs)
   result <- rc2
-  if(weight==FALSE & cap==FALSE){
+  if(weighted==FALSE & cap==FALSE){
     names(result) <- c("nC")
   }else{
     names(result) <- c("eC")

@@ -2,6 +2,7 @@
 #'
 #' @param habitats Raster with the effective seedrain, summed up for each patch.
 #' @param kernel kernel Dispersal kernel of the species.
+#' @param summarize If TRUE, a table instead of a raster is returned.
 #'
 #' @return A raster or a summary table with the effective Distance (eD) for each Patch
 #' @export

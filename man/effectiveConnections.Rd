@@ -5,24 +5,26 @@
 \title{Determine the effective Connections (eC) for all patches}
 \usage{
 effectiveConnections(
-  habitatraster,
+  habitats,
   kernel,
   threshold = 0.05,
-  weight = FALSE,
+  weighted = FALSE,
   cap = TRUE,
   summarize = T
 )
 }
 \arguments{
-\item{habitatraster}{Raster containing patches of suitable habitats, coded with values > 0.}
+\item{habitats}{Raster containing patches of suitable habitats, coded with values > 0.}
 
 \item{kernel}{Dispersal kernel of the species.}
 
 \item{threshold}{Minimum of eC at which two patches are connected.}
 
-\item{weight}{If true, the connection are weighted.}
+\item{weighted}{If true, the connection are weighted.}
 
 \item{cap}{If true, values larger than 1 are capped.}
+
+\item{summarize}{If TRUE, a table instead of a raster is returned.}
 }
 \value{
 A table or raster with the effectiveConnectivity for each Patch
@@ -33,6 +35,6 @@ Determine the effective Connections (eC) for all patches
 \examples{
 data(habitats_lech)
 sddkernel_chondrilla <- dispersalKernel(cellsize=5, radius=3, decay=0.19)
-eC <- effectiveConnections(habitats_lech, sddkernel_chondrilla, minp=0.01, cap=TRUE)
+eC <- effectiveConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01, cap=TRUE)
 
 }

@@ -37,12 +37,15 @@ effectiveConnections <- function(habitats, kernel, threshold=0.05, weighted=TRUE
       targets <- targets > threshold
       res <- as.data.frame(raster::zonal(targets, rc, fun=max))
       #message("no weights")
+
     }
 
     if(weighted==TRUE){
       res <- as.data.frame(raster::zonal(targets, rc, fun=sum))
       res$value[res$value[]>1] <- 1 # make sure each habitat counts max as 1
     }
+
+
 
     zs$connections <- zs$connections + res$value
 

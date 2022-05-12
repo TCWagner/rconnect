@@ -34,7 +34,7 @@ effectiveConnectionsMatrix <- function(habitats, kernel, threshold=0.05){
     # determine how much a each patch gets from the source
     res <- as.data.frame(raster::zonal(targets, rc, fun=sum))
     zs[,p] <- as.numeric(res$value)
-    zs[p,p] <- 1
+    zs[p,p] <- NA
 
   }
 

@@ -151,7 +151,7 @@ plot(eDr)
 
 <img src="man/figures/README-eDr-1.png" width="100%" />
 
-And finally, you may wish to have the cell-by-cell connectivity, or
+Sometimes you may wish to have the cell-by-cell connectivity, or
 *effectiveSeedrain* to use for further modeling:
 
 ``` r
@@ -160,3 +160,46 @@ plot(eCr)
 ```
 
 <img src="man/figures/README-eCr-1.png" width="100%" />
+
+And, finally, you may wish to have the effective patch-to-patch
+connectivity and the respective effective distances between patches
+
+``` r
+eCM <- effectiveConnectionsMatrix(habitats_lech, cckernel)
+eCM
+#>       [,1]      [,2]      [,3] [,4]      [,5] [,6]       [,7]      [,8] [,9]
+#>  [1,]   NA 0.0000000 0.0000000    0 0.0000000    0 0.00000000 0.0000000    0
+#>  [2,]    0        NA 0.1842729    0 0.0000000    0 0.00000000 0.0000000    0
+#>  [3,]    0 0.1430062        NA    0 0.4291111    0 0.00000000 0.0000000    0
+#>  [4,]    0 0.0000000 0.0000000   NA 0.0000000    0 0.00000000 0.0000000    0
+#>  [5,]    0 0.0000000 0.5933886    0        NA    0 0.06388325 0.4574982    0
+#>  [6,]    0 0.0000000 0.0000000    0 0.1258424   NA 0.00000000 0.0000000    0
+#>  [7,]    0 0.0000000 0.0000000    0 0.2991850    0         NA 0.0000000    0
+#>  [8,]    0 0.0000000 0.0000000    0 0.5086541    0 0.00000000        NA    0
+#>  [9,]    0 0.0000000 0.0000000    0 0.0000000    0 0.00000000 0.0000000   NA
+```
+
+Please note, that the effective distances for a patch cannot be summed
+up or averaged to obtain its total *effectiveDistance*. Use the
+appropriate function *effectiveDistance* instead.
+
+## Finally
+
+The basic functions of this package, *effectiveConnections* and
+*effectiveSeedrain* provide spatially explicit data if needed. Though
+currently we do neither consider the actual occupancy of habitats or
+barriers, both can easily be combined with our functions. The respective
+data can be used for further modelling. We do not include long distance
+dispersal here, because here the mechanisms are different and more
+complex. AA package suitable for this is currently under development.
+
+## References
+
+Woellner, R., Bräuchler, C., Kollmann, J., & Wagner, T. C. (2022).
+Biological Flora of Central Europe: Chondrilla chondrilloides (Ard.) H.
+Karst. Perspectives in Plant Ecology, Evolution and Systematics, 54,
+125657.
+
+Wagner, T.C., Woellner, R. (2022). Effective Connectivity and effective
+Habitat Distance - A new metric to quantify habitat connectivity for
+plant species in riverscapes. Ecological Indicators.

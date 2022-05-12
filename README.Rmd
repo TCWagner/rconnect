@@ -111,10 +111,32 @@ eDr <- effectiveDistance(habitats_lech, cckernel, summarize=FALSE)
 plot(eDr)
 ```
 
-And finally, you may wish to have the cell-by-cell connectivity, or *effectiveSeedrain* to use for further modeling:
+Sometimes you may wish to have the cell-by-cell connectivity, or *effectiveSeedrain* to use for further modeling:
 
 ```{r eCr}
 
 eCr <- effectiveSeedrain(habitats_lech, cckernel, summarize=FALSE)
 plot(eCr)
 ```
+
+And, finally, you may wish to have the effective patch-to-patch connectivity and the respective effective distances between patches
+
+```{r eCM}
+
+eCM <- effectiveConnectionsMatrix(habitats_lech, cckernel)
+eCM
+```
+
+Please note, that the effective distances for a patch cannot be summed up or averaged to obtain its total *effectiveDistance*. Use the appropriate function *effectiveDistance* instead. 
+
+## Finally
+
+
+The basic functions of this package, *effectiveConnections* and *effectiveSeedrain*  provide spatially explicit data if needed. Though currently we do neither consider the actual occupancy of habitats or barriers, both can easily be combined with our functions. The respective data can be used for further modelling. We do not include long distance dispersal here, because here the mechanisms are different and more complex. AA package suitable for this is currently under development.
+
+## References
+
+Woellner, R., Bräuchler, C., Kollmann, J., & Wagner, T. C. (2022). Biological Flora of Central Europe: Chondrilla chondrilloides (Ard.) H. Karst. Perspectives in Plant Ecology, Evolution and Systematics, 54, 125657.
+
+Wagner, T. C., Woellner, R. (2022). Effective Connectivity and effective Habitat Distance - A new metric to quantify habitat connectivity for plant species in riverscapes. Ecological Indicators.
+

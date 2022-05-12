@@ -1,6 +1,6 @@
 Package: rconnect
 Title: Riverscape Connectivity Metrics
-Version: 0.0.1.9000
+Version: 0.0.2.9000
 Authors@R: c(
     person("Thomas", "Wagner", email="wagner@tum.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0457-367X")),

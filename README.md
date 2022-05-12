@@ -108,15 +108,26 @@ mean(eC$eC)
 #> [1] 0.2988968
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
+So, our riverscape has a conectivity of \~30% for Chondrilla
+choncrilloides.
 
-You can also embed plots, for example:
+We can now determine the effective distance (eD), a measure that tells
+us, how fas away a patch would be from an …
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+``` r
+eD <- effectiveDistance(habitats_lech, cckernel)
+eD
+#>   patch         eD
+#> 1     1         NA
+#> 2     2  4.9962768
+#> 3     3  0.0000000
+#> 4     4 10.9351921
+#> 5     5  0.0000000
+#> 6     6  8.9908412
+#> 7     7  4.9482707
+#> 8     8  0.4196436
+#> 9     9 17.1338503
+```
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.

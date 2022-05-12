@@ -7,8 +7,16 @@
 <!-- badges: end -->
 
 rconnect is a simple package that implements riverscape connectivity
-measures ‘effectiveDistance’ and ‘effectiveConnectivity’ for wind
-dispersed plants as described by Wagner & Wöllner (2022)
+measures for wind dispersed plants as described by Wagner & Wöllner
+(2022):
+
+*absoluteConnections*  
+*effectiveConnections*  
+*effectiveDistance*  
+*effectiveSeedrain*
+
+It further provides s helper function to create a negative exponential
+dispersal kernel and simple example raster file with suitable habitats.
 
 ## Installation
 
@@ -27,14 +35,14 @@ simple connectivity metrics of a riverscape.
 
 Let’s find out how well the habitats of a riverscape (a riverine
 landscape) are connected for a certain species. As example we chose the
-Asteracea Chondrilla chondrilloides, an wind dispersed species well
+Asteracea *Chondrilla chondrilloides*, an wind dispersed species well
 adapted to open gravel bars of alpine rivers. For details about the
 species ecology, dispersal and status, see Wöllner et al. 2022.
 
-Let’s start with a raster file, containing the suitable habitats for our
+We start with a raster file, containing the suitable habitats for our
 species. Suitable habitats need to have a value \> 0; 0 codes for
 unsuitable habitats. Here we use our example data that comes with our
-package: habitats_lech
+package: *habitats_lech*
 
 ``` r
 library(raster)
@@ -50,11 +58,13 @@ plot(habitats_lech)
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-We then need to create a dispersal kernel for the species under
-consideration. Assuming a negative exponential decrease of the seeds
-with distance and a dispersal distance of \~14m the decay is 0.19.
+Now we the dispersal kernel for the species under consideration as a
+matrix. We can create a simple, negative exponential dispersal kernel
+with the function *dispersalKernel*. Assuming a negative exponential
+decrease of the seeds with distance and a dispersal distance of \~14m
+the decay is 0.19.
 
-To create the kernel, we need to provide the cellsize of our raster
+To create the kernel, we need to provide the cell size of our raster
 containing the suitable habitats (5m), and the intended radius of our
 kernel in cells. By default, the kernel center cell will be set to 0 and
 the kernel normalized to sum up to 1.
@@ -82,8 +92,8 @@ nC
 #> 9     9  0
 ```
 
-However, if we want to have the effective connections (that is the
-connections weighted by distance) we can use:
+However, if we want to have the effective connections or *eC* (that is
+the connections weighted by distance) we can use:
 
 ``` r
 eC <- effectiveConnections(habitats_lech, cckernel)
@@ -109,9 +119,9 @@ mean(eC$eC)
 ```
 
 So, our riverscape has a conectivity of \~30% for Chondrilla
-choncrilloides.
+chondrilloides.
 
-We can now determine the effective distance (eD), a measure that tells
+We can now determine the effective distance (*eD*), a measure that tells
 us, how fas away a patch would be from an …
 
 ``` r
@@ -129,5 +139,24 @@ eD
 #> 9     9 17.1338503
 ```
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+You may wish to have your results a a raster file for further analysis
+instead of a simple table. No problem, just call the respective
+functions with *summarize=FALSE* option and you will get a raster where
+each patch is assigned the respective value:
+
+``` r
+eDr <- effectiveDistance(habitats_lech, cckernel, summarize=FALSE)
+plot(eDr)
+```
+
+<img src="man/figures/README-eDr-1.png" width="100%" />
+
+And finally, you may wish to have the cell-by-cell connectivity, or
+*effectiveSeedrain* to use for further modeling:
+
+``` r
+eCr <- effectiveSeedrain(habitats_lech, cckernel, summarize=FALSE)
+plot(eCr)
+```
+
+<img src="man/figures/README-eCr-1.png" width="100%" />

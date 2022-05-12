@@ -3,7 +3,7 @@
 #' @param habitats Raster containing patches of suitable habitats, coded with values > 0.
 #' @param kernel Dispersal kernel of the species.
 #' @param threshold Minimum of eC at which two patches are connected.
-#' @param weighted If true, the connection are weighted.
+#' @param weighted If false, the number of connection is returned.
 #' @param cap If true, values larger than 1 are capped.
 #' @param summarize If TRUE, a table instead of a raster is returned.
 #'
@@ -16,7 +16,7 @@
 #' eC <- effectiveConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01, cap=TRUE)
 #'
 
-effectiveConnections <- function(habitats, kernel, threshold=0.05, weighted=FALSE, cap=TRUE, summarize=T){
+effectiveConnections <- function(habitats, kernel, threshold=0.05, weighted=TRUE, cap=TRUE, summarize=TRUE){
   rc <- raster::clump(habitats>0)
 
   patches <- raster::cellStats(rc, max)

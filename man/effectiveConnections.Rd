@@ -8,9 +8,9 @@ effectiveConnections(
   habitats,
   kernel,
   threshold = 0.05,
-  weighted = FALSE,
+  weighted = TRUE,
   cap = TRUE,
-  summarize = T
+  summarize = TRUE
 )
 }
 \arguments{
@@ -20,7 +20,7 @@ effectiveConnections(
 
 \item{threshold}{Minimum of eC at which two patches are connected.}
 
-\item{weighted}{If true, the connection are weighted.}
+\item{weighted}{If false, the number of connection is returned.}
 
 \item{cap}{If true, values larger than 1 are capped.}
 

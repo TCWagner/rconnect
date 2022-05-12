@@ -14,10 +14,10 @@
 #' eDM <- effectiveDistancesMatrix(habitats_lech, sddkernel_chondrilla, threshold=0.01)
 #'
 
-effectiveConnectionsMatrix <- function(habitats, kernel, threshold=0.05, replace_inf=FALSE){
+effectiveDistancesMatrix <- function(habitats, kernel, threshold=0.05, replace_inf=FALSE){
   rc <- raster::clump(habitats>0)
 
-  coef <- 1-attr(ddkernel_chondrilla, "decay")
+  coef <- 1-attr(kernel, "decay")
   patches <- raster::cellStats(rc, max)
 
   zs <- array(0,c(patches,patches))

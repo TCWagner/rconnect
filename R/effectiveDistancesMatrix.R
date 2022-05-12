@@ -15,6 +15,7 @@
 #'
 
 effectiveDistancesMatrix <- function(habitats, kernel, threshold=0.05, replace_inf=FALSE){
+  #
   rc <- raster::clump(habitats>0)
 
   coef <- 1-attr(kernel, "decay")

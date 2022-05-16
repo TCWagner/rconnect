@@ -11,9 +11,48 @@
 #' @examples
 #' data(habitats_lech)
 #' sddkernel_chondrilla <- dispersalKernel(cellsize=5, radius=3, decay=0.19)
-#' eC <- absoluteConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01)
+#' nC <- absoluteConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01)
 #'
 absoluteConnections <- function(habitats, kernel, threshold=0.05, summarize=TRUE){
-  return(effectiveConnections(habitats = habitats, kernel=kernel, threshold=threshold, weighted=FALSE, cap=FALSE, summarize=summarize))
+  rc <- raster::clump(habitats>0)
+
+  patches <- raster::cellStats(rc, max)
+
+  zs <- data.frame(zone=seq(1,patches), connections=rep(0,patches))
+
+  for(p in 1:patches){
+    focalpatch <- rc==p
+    otherpatches <- rc != p
+
+    pdp2_local <- raster::focal(focalpatch, kernel, na.rm=T)/sum(kernel) # make sure it is normalized (0...1)
+
+    targets <- pdp2_local * (pdp2_local > threshold)
+    targets <- targets * otherpatches
+    targets <- targets > threshold
+    res <- as.data.frame(raster::zonal(targets, rc, fun=max))
+
+    # zonal statistics
+
+    zs$connections <- zs$connections + res$value
+    zs$connections[is.infinite(zs$connection[])] <- NA
+  }
+  names(zs) <- c("patch", "nC")
+
+  if(summarize){
+    return(zs)
+     }
+
+  # else reclassify and return raster
+
+  rc <- raster::clump(habitats>=0)
+  rc2 <- raster::reclassify(rc, zs)
+  result <- rc2
+  names(result) <- c("nC")
+
+  return(result)
+
+
+
+
 
   }

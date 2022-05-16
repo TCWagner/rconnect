@@ -24,6 +24,6 @@ Determine the absolute Number of Connections (nC) for all patches
 \examples{
 data(habitats_lech)
 sddkernel_chondrilla <- dispersalKernel(cellsize=5, radius=3, decay=0.19)
-eC <- absoluteConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01)
+nC <- absoluteConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01)
 
 }

@@ -5,7 +5,7 @@ Authors@R: c(
     person("Thomas", "Wagner", email="wagner@tum.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0457-367X")),
     person("Romy", "Wöllner", , "romy.woellner@tum.de", role = c("aut"),
-           comment = c(ORCID = "XXX"))
+           comment = c(ORCID = "0000-0001-9186-5349"))
            )
 Date: 2022-05-09
 Description: Derives the raster based connectivity metrics 'effective seedrain', 'effective connections' and 'effective distance'.

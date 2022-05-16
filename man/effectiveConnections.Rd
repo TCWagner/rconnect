@@ -33,7 +33,8 @@ A table or raster with the effectiveConnectivity for each Patch
 Determine the effective Connections (eC) for all patches
 }
 \examples{
-data(habitats_lech)
+example <- system.file("extdata/cc_clumped_lech_ehd.tif", package = "rconnect")
+habitats_lech <- raster::raster(example)
 sddkernel_chondrilla <- dispersalKernel(cellsize=5, radius=3, decay=0.19)
 eC <- effectiveConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01, cap=TRUE)
 

@@ -25,4 +25,5 @@ Imports:
     raster, methods
 Depends: 
     R (>= 3.5.0)
+Suggests: rgdal, igraph
 LazyData: true

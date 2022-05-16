@@ -27,7 +27,8 @@ A matrix with patch-to-patch effectiveDistances
 Returns a matrix with the effective Distances (eD) between patches
 }
 \examples{
-data(habitats_lech)
+example <- system.file("extdata/cc_clumped_lech_ehd.tif", package = "rconnect")
+habitats_lech <- raster::raster(example)
 sddkernel_chondrilla <- dispersalKernel(cellsize=5, radius=3, decay=0.19)
 eDM <- effectiveDistancesMatrix(habitats_lech, sddkernel_chondrilla, threshold=0.01)
 

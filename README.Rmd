@@ -26,7 +26,7 @@ described by Wagner & Wöllner (2022):
 *effectiveDistance*  
 *effectiveSeedrain*  
 
-It further provides s helper function to create a negative exponential dispersal kernel and simple example raster file with suitable habitats.
+It further provides a helper function to create a negative exponential dispersal kernel, functions to create a connectivity and distance matrix based on effectiveConnections and effectiveDistance and a simple example raster file with suitable habitats.
 
 ## Installation
 
@@ -39,7 +39,7 @@ devtools::install_github("TCWagner/rconnect")
 
 ## Example
 
-This is a basic example how to work with the package and calculate simple connectivity metrics of a riverscape.
+Here is a basic example how to work with the package and calculate simple connectivity metrics of a riverscape.
 
 Let's find out how well the habitats of a riverscape (a riverine landscape) are connected for a certain species. As example we chose the Asteracea *Chondrilla chondrilloides*,
 an wind dispersed species well adapted to open gravel bars of alpine rivers. For details about the species ecology, dispersal and status, see Wöllner et al. 2022.

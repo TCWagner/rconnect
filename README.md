@@ -15,8 +15,10 @@ measures for wind dispersed plants as described by Wagner & Wöllner
 *effectiveDistance*  
 *effectiveSeedrain*
 
-It further provides s helper function to create a negative exponential
-dispersal kernel and simple example raster file with suitable habitats.
+It further provides a helper function to create a negative exponential
+dispersal kernel, functions to create a connectivity and distance matrix
+based on effectiveConnections and effectiveDistance and a simple example
+raster file with suitable habitats.
 
 ## Installation
 
@@ -30,7 +32,7 @@ devtools::install_github("TCWagner/rconnect")
 
 ## Example
 
-This is a basic example how to work with the package and calculate
+Here is a basic example how to work with the package and calculate
 simple connectivity metrics of a riverscape.
 
 Let’s find out how well the habitats of a riverscape (a riverine
@@ -46,7 +48,6 @@ package: *habitats_lech*
 
 ``` r
 library(raster)
-#> Warning: Paket 'raster' wurde unter R Version 4.1.2 erstellt
 #> Lade nötiges Paket: sp
 library(rconnect)
 
@@ -70,6 +71,7 @@ kernel in cells. By default, the kernel center cell will be set to 0 and
 the kernel normalized to sum up to 1.
 
 ``` r
+
 cckernel <- dispersalKernel(cellsize=5, radius=5, decay=0.19)
 #> Lade nötigen Namensraum: igraph
 ```
@@ -78,6 +80,7 @@ Now we can easily calculate the number of connections (eC) that each
 patch has:
 
 ``` r
+
 nC <- absoluteConnections(habitats_lech, cckernel)
 nC
 #>   patch nC
@@ -96,6 +99,7 @@ However, if we want to have the effective connections or *eC* (that is
 the connections weighted by distance) we can use:
 
 ``` r
+
 eC <- effectiveConnections(habitats_lech, cckernel)
 eC
 #>   patch        eC
@@ -114,6 +118,7 @@ If we want to have the effective connectivity for our whole riverscape
 we just need to calculate the mean of the effective connections:
 
 ``` r
+
 mean(eC$eC)
 #> [1] 0.2988968
 ```
@@ -125,6 +130,7 @@ We can now determine the effective distance (*eD*), a measure that tells
 us, how fas away a patch would be from an …
 
 ``` r
+
 eD <- effectiveDistance(habitats_lech, cckernel)
 eD
 #>   patch         eD
@@ -145,6 +151,7 @@ functions with *summarize=FALSE* option and you will get a raster where
 each patch is assigned the respective value:
 
 ``` r
+
 eDr <- effectiveDistance(habitats_lech, cckernel, summarize=FALSE)
 plot(eDr)
 ```
@@ -155,6 +162,7 @@ Sometimes you may wish to have the cell-by-cell connectivity, or
 *effectiveSeedrain* to use for further modeling:
 
 ``` r
+
 eCr <- effectiveSeedrain(habitats_lech, cckernel, summarize=FALSE)
 plot(eCr)
 ```
@@ -165,6 +173,7 @@ And, finally, you may wish to have the effective patch-to-patch
 connectivity and the respective effective distances between patches
 
 ``` r
+
 eCM <- effectiveConnectionsMatrix(habitats_lech, cckernel)
 eCM
 #>       [,1]      [,2]      [,3] [,4]      [,5] [,6]       [,7]      [,8] [,9]
@@ -200,6 +209,6 @@ Biological Flora of Central Europe: Chondrilla chondrilloides (Ard.) H.
 Karst. Perspectives in Plant Ecology, Evolution and Systematics, 54,
 125657.
 
-Wagner, T.C., Woellner, R. (2022). Effective Connectivity and effective
+Wagner, T. C., Woellner, R. (2022). Effective Connectivity and effective
 Habitat Distance - A new metric to quantify habitat connectivity for
 plant species in riverscapes. Ecological Indicators.

@@ -13,6 +13,7 @@
 #' sddkernel_chondrilla <- dispersalKernel(cellsize=5, radius=3, decay=0.19)
 #' nC <- absoluteConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01)
 #'
+#'
 absoluteConnections <- function(habitats, kernel, threshold=0.05, summarize=TRUE){
   rc <- raster::clump(habitats>0)
 

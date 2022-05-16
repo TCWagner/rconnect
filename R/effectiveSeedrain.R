@@ -41,12 +41,12 @@ effectiveSeedrain <- function(habitats, kernel, summarize=TRUE, fun=NA){
   names(result) <- c("eS")
 
   # if summarize is TRUE but no function provided, use sum as default
-  if(summarize & !class(fun)=="function"){
+  if(summarize & !methods::is(fun, "function")){
     fun <- sum
   }
 
 
-  if(class(fun)=="function"){
+  if(methods::is(fun, "function")){
     rc <- raster::clump(habitats>=0)
     zs <- as.data.frame(raster::zonal(template, rc, fun=fun)) # evtl statt mean summe?
     rc2 <- raster::reclassify(rc, zs)

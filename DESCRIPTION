@@ -1,6 +1,6 @@
 Package: rconnect
 Title: Riverscape Connectivity Metrics
-Version: 0.0.2.9000
+Version: 0.1.0.9000
 Authors@R: c(
     person("Thomas", "Wagner", email="wagner@tum.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0457-367X")),
@@ -8,13 +8,21 @@ Authors@R: c(
            comment = c(ORCID = "XXX"))
            )
 Date: 2022-05-09
-Description: This package calculates various riverscape connectivity metrics as described by Wagner, T., & Woellner, R. (2022): Titel ...
+Description: Derives the raster based connectivity metrics 'effective seedrain', 'effective connections' and 'effective distance'.
+      This metrics are particularly useful when assessing connectivity of riverscapes for wind dispersed plant species. 
+      The metrics fill the gap between common connectivity indices for rivers that focus on the passage for fish 
+      and terrestrial connectivity indices such as nearest neighbor distances, 'CCP', 'LCP' or 'IIC' (Pascual-Hortal, L., and Saura, S. 2006; <doi:10.1007/s10980-006-0013-z>) 
+      that do not consider the particularities of riverscapes. The metrics are available at landscape, patch and cell level an can be combined with 
+      different weights and cost paths. The raster output can be used for modeling.
+      Known dispersal distance of the species under consideration and raster with suitable habitat patches (coded with a value > 0) 
+      are required. A negative exponential dispersal kernel can be created with the function dispersalKernel. Other kernels can be
+      provided as matrix. Wagner, T. C., & Woellner, R. (2022).
 License: GPL (>= 3) 
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Imports: 
-    raster
+    raster, methods
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)
 LazyData: true

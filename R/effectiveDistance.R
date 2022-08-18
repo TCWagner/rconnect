@@ -4,7 +4,7 @@
 #' @param kernel kernel Dispersal kernel of the species.
 #' @param summarize If TRUE, a table instead of a raster is returned.
 #'
-#' @return A raster or a summary table with the effective Distance (eD) for each Patch
+#' @return A raster or a summary table with the effective Distance (eD) for each Patch. For practical reasons NA is returned for infinite distance
 #' @export
 #'
 #' @examples
@@ -32,7 +32,6 @@ effectiveDistance <- function(habitats, kernel, summarize=TRUE){
   rc <- raster::clump(habitats>=0)
   result <- raster::reclassify(rc, zs)
   names(result) <- c("eD")
-
   return(result)
 
 }

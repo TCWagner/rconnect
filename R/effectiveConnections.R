@@ -7,7 +7,7 @@
 #' @param cap If true, values larger than 1 are capped.
 #' @param summarize If TRUE, a table instead of a raster is returned.
 #'
-#' @return A table or raster with the effectiveConnectivity for each Patch
+#' @return A table or raster with the number of connections for each Patch
 #' @export
 #'
 #' @examples
@@ -17,12 +17,13 @@
 #' eC <- effectiveConnections(habitats_lech, sddkernel_chondrilla, threshold=0.01, cap=TRUE)
 #'
 
-effectiveConnections <- function(habitats, kernel, threshold=0.05, weighted=TRUE, cap=TRUE, summarize=TRUE){
+effectiveConnections <- function(habitats, kernel, threshold=0, weighted=TRUE, cap=FALSE, summarize=TRUE){
   rc <- raster::clump(habitats>0)
 
   patches <- raster::cellStats(rc, max)
 
   zs <- data.frame(zone=seq(1,patches), connections=rep(0,patches))
+  es <- effectiveSeedrain(habitats, kernel, summarize=T, fun=sum)
 
   for(p in 1:patches){
     focalpatch <- rc==p
@@ -34,19 +35,8 @@ effectiveConnections <- function(habitats, kernel, threshold=0.05, weighted=TRUE
     targets <- targets * otherpatches
     # zonal statistics
 
-    if(weighted==FALSE){
-      targets <- targets > threshold
-      res <- as.data.frame(raster::zonal(targets, rc, fun=max))
-      #message("no weights")
-
-    }
-
-    if(weighted==TRUE){
-      res <- as.data.frame(raster::zonal(targets, rc, fun=sum))
-      res$value[res$value[]>1] <- 1 # make sure each habitat counts max as 1
-    }
-
-
+    targets <- targets > threshold
+    res <- as.data.frame(raster::zonal(targets, rc, fun=max))
 
     zs$connections <- zs$connections + res$value
 
@@ -56,16 +46,18 @@ effectiveConnections <- function(habitats, kernel, threshold=0.05, weighted=TRUE
     if(cap){
       zs$connections[zs$connection[]>1] <- 1
     }
-  }
-  if(cap){
-    names(zs) <- c("patch", "eC")
-  }else{
-    names(zs) <- c("patch", "nC")
-  }
 
-  if(summarize){
-    return(zs)
   }
+  if(weighted==TRUE){
+     names(zs) <- c("patch", "eC")
+     zs$eC <- es$eS/zs$eC
+     }else{
+     names(zs) <- c("patch", "nC")
+   }
+
+   if(summarize){
+     return(zs)
+   }
 
   # else reclassify and return raster
 
@@ -74,7 +66,7 @@ effectiveConnections <- function(habitats, kernel, threshold=0.05, weighted=TRUE
   result <- rc2
   if(weighted==FALSE & cap==FALSE){
     names(result) <- c("nC")
-  }else{
+    }else{
     names(result) <- c("eC")
   }
 

@@ -14,7 +14,7 @@ effectiveDistance(habitats, kernel, summarize = TRUE)
 \item{summarize}{If TRUE, a table instead of a raster is returned.}
 }
 \value{
-A raster or a summary table with the effective Distance (eD) for each Patch
+A raster or a summary table with the effective Distance (eD) for each Patch. For practical reasons NA is returned for infinite distance
 }
 \description{
 Calculate effectiveDistance (eD) for habitat patches

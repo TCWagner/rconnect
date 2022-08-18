@@ -7,9 +7,9 @@
 effectiveConnections(
   habitats,
   kernel,
-  threshold = 0.05,
+  threshold = 0,
   weighted = TRUE,
-  cap = TRUE,
+  cap = FALSE,
   summarize = TRUE
 )
 }
@@ -27,7 +27,7 @@ effectiveConnections(
 \item{summarize}{If TRUE, a table instead of a raster is returned.}
 }
 \value{
-A table or raster with the effectiveConnectivity for each Patch
+A table or raster with the number of connections for each Patch
 }
 \description{
 Determine the effective Connections (eC) for all patches

@@ -30,5 +30,5 @@ colonizationPotential <- function(habitats, kernel, cap=FALSE, summarize=TRUE){
     res <- res*(res<=1)+1*(res>1)
   }
   return(res)
-
+# test
 }

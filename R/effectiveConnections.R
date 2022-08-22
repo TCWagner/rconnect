@@ -34,6 +34,7 @@ effectiveConnections <- function(habitats, kernel, threshold=0, weighted=TRUE, c
     # zonal statistics
 
     res <- as.data.frame(raster::zonal(targets, rc, fun=sum))
+    print()
     print(res)
 
     zs$connections <- zs$connections + res$value

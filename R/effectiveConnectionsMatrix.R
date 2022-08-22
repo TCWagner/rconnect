@@ -14,7 +14,7 @@
 #' eCM <- effectiveConnectionsMatrix(habitats_lech, sddkernel_chondrilla, threshold=0.01)
 #'
 
-effectiveConnectionsMatrix <- function(habitats, kernel, threshold=0.05){
+effectiveConnectionsMatrix <- function(habitats, kernel, threshold=0.0){
   rc <- raster::clump(habitats>0)
 
   patches <- raster::cellStats(rc, max)
@@ -35,6 +35,10 @@ effectiveConnectionsMatrix <- function(habitats, kernel, threshold=0.05){
     res <- as.data.frame(raster::zonal(targets, rc, fun=sum))
     zs[,p] <- as.numeric(res$value)
     zs[p,p] <- NA
+
+    if(threshold){
+      zs <- zs * (zs>threshold)
+    }
 
   }
 

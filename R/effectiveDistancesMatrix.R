@@ -30,8 +30,7 @@ effectiveDistancesMatrix <- function(habitats, kernel, threshold=0.05, replace_i
 
     pdp2_local <- raster::focal(focalpatch, kernel, na.rm=T)/sum(kernel) # make sure it is normalized (0...1)
 
-    targets <- pdp2_local * (pdp2_local > threshold)
-    targets <- targets * otherpatches
+    targets <- pdp2_local * otherpatches
     # zonal statistics
 
 
@@ -39,13 +38,16 @@ effectiveDistancesMatrix <- function(habitats, kernel, threshold=0.05, replace_i
     res <- as.data.frame(raster::zonal(targets, rc, fun=sum))
 
 
+    d <- log(res$value, base=coef)
 
-    zs[,p] <- log(res$value, base=coef)
+    zs[,p] <- d
     zs[p,p] <- NA
 
 
 
   }
+
+  zs <- zs * (zs>0)
 
   if(is.na(replace_inf) | is.numeric(replace_inf)){
     zs <- replace(zs, is.infinite(zs), replace_inf)

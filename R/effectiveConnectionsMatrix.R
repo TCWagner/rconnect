@@ -27,8 +27,7 @@ effectiveConnectionsMatrix <- function(habitats, kernel, threshold=0.05){
 
     pdp2_local <- raster::focal(focalpatch, kernel, na.rm=T)/sum(kernel) # make sure it is normalized (0...1)
 
-    targets <- pdp2_local * (pdp2_local > threshold)
-    targets <- targets * otherpatches
+    targets <- pdp2_local * otherpatches
     # zonal statistics
 
 

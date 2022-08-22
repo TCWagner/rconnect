@@ -30,13 +30,11 @@ effectiveConnections <- function(habitats, kernel, threshold=0, weighted=TRUE, c
     otherpatches <- rc != p
 
     pdp2_local <- raster::focal(focalpatch, kernel, na.rm=T)/sum(kernel) # make sure it is normalized (0...1)
-
-    targets <- pdp2_local * (pdp2_local > threshold)
-    targets <- targets * otherpatches
+    targets <- pdp2_local * otherpatches
     # zonal statistics
 
-    targets <- targets > threshold
-    res <- as.data.frame(raster::zonal(targets, rc, fun=max))
+    res <- as.data.frame(raster::zonal(targets, rc, fun=sum))
+    print(res)
 
     zs$connections <- zs$connections + res$value
 

@@ -28,8 +28,8 @@ absoluteConnections <- function(habitats, kernel, threshold=0.05, summarize=TRUE
 
     pdp2_local <- raster::focal(focalpatch, kernel, na.rm=T)/sum(kernel) # make sure it is normalized (0...1)
 
-    targets <- pdp2_local * (pdp2_local > threshold)
-    targets <- targets * otherpatches
+    #targets <- pdp2_local * (pdp2_local > threshold)
+    targets <- pdp2_local * otherpatches
     targets <- targets > threshold
     res <- as.data.frame(raster::zonal(targets, rc, fun=max))
 
@@ -37,6 +37,7 @@ absoluteConnections <- function(habitats, kernel, threshold=0.05, summarize=TRUE
 
     zs$connections <- zs$connections + res$value
     zs$connections[is.infinite(zs$connection[])] <- NA
+
   }
   names(zs) <- c("patch", "nC")
 

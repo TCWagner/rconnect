@@ -4,12 +4,14 @@
 \alias{effectiveDistance}
 \title{Calculate effectiveDistance (eD) for habitat patches}
 \usage{
-effectiveDistance(habitats, kernel, summarize = TRUE)
+effectiveDistance(habitats, kernel, threshold = 0, summarize = TRUE)
 }
 \arguments{
 \item{habitats}{Raster with the effective seedrain, summed up for each patch.}
 
-\item{kernel}{kernel Dispersal kernel of the species.}
+\item{kernel}{Dispersal kernel of the species.}
+
+\item{threshold}{Minimum fraction of eC at which two patches are connected.}
 
 \item{summarize}{If TRUE, a table instead of a raster is returned.}
 }

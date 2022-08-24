@@ -4,7 +4,7 @@
 \alias{effectiveConnectionsMatrix}
 \title{Returns a matrix with the effective Connections (eC) between patches}
 \usage{
-effectiveConnectionsMatrix(habitats, kernel, threshold = 0.05)
+effectiveConnectionsMatrix(habitats, kernel, threshold = 0)
 }
 \arguments{
 \item{habitats}{Raster containing patches of suitable habitats, coded with values > 0.}

@@ -16,30 +16,10 @@
 #'
 #'
 absoluteConnections <- function(habitats, kernel, threshold=0.05, summarize=TRUE){
-  rc <- raster::clump(habitats>0)
 
-  patches <- raster::cellStats(rc, max)
-
-  zs <- data.frame(zone=seq(1,patches), connections=rep(0,patches))
-
-  for(p in 1:patches){
-    focalpatch <- rc==p
-    otherpatches <- rc != p
-
-    pdp2_local <- raster::focal(focalpatch, kernel, na.rm=T)/sum(kernel) # make sure it is normalized (0...1)
-
-    #targets <- pdp2_local * (pdp2_local > threshold)
-    targets <- pdp2_local * otherpatches
-    targets <- targets > threshold
-    res <- as.data.frame(raster::zonal(targets, rc, fun=max))
-
-    # zonal statistics
-
-    zs$connections <- zs$connections + res$value
-    zs$connections[is.infinite(zs$connection[])] <- NA
-
-  }
-  names(zs) <- c("patch", "nC")
+  ecm <- effectiveConnectionsMatrix(habitats, kernel, threshold)
+  res <- colSums(ecm>threshold, na.rm=T)
+  zs <- data.frame(patch=seq(1,length(res)), nC=res)
 
   if(summarize){
     return(zs)
@@ -53,9 +33,5 @@ absoluteConnections <- function(habitats, kernel, threshold=0.05, summarize=TRUE
   names(result) <- c("nC")
 
   return(result)
-
-
-
-
 
   }

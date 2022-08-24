@@ -7,8 +7,7 @@
 effectiveConnections(
   habitats,
   kernel,
-  threshold = 0,
-  weighted = TRUE,
+  threshold = 0.01,
   cap = FALSE,
   summarize = TRUE
 )
@@ -18,9 +17,7 @@ effectiveConnections(
 
 \item{kernel}{Dispersal kernel of the species.}
 
-\item{threshold}{Minimum of eC at which two patches are connected.}
-
-\item{weighted}{If false, the number of connection is returned.}
+\item{threshold}{Minimum fraction of eC at which two patches are connected.}
 
 \item{cap}{If true, values larger than 1 are capped.}
 

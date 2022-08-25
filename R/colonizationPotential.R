@@ -23,29 +23,29 @@ colonizationPotential <- function(habitats, kernel, threshold=0, cap=FALSE){
   res <- colSums(ecm*(ecm>threshold), na.rm=T)
   efc <- res
   eCm <- mean(res)
-  eCm_sd <- sd(res)
+  eCm_sd <- stats::sd(res)
 
   # calculate eDm
   res <- log(res, base=coef)
   res[res<0] <- 0
   res <- subset(res, res<Inf)
   eDm <- mean(res)
-  eDm_sd <- sd(res)
+  eDm_sd <- stats::sd(res)
 
   # calculate nCm
   res <- colSums(ecm>threshold, na.rm=T)
   nbc <- res
   nCm <- mean(res)
-  nCm_sd <- sd(res)
+  nCm_sd <- stats::sd(res)
 
   # calculate CC
 
   cC <- efc/nbc
-  print(cC)
+
   cC[is.na(cC)] <- 0
 
   cCm <- mean(cC)
-  cCm_sd <- sd(cC)
+  cCm_sd <- stats::sd(cC)
 
   cp <- data.frame(habitats=names(habitats),threshold=threshold,cP=eCm, cP_sd=eCm_sd, eD=eDm, eDm_sd=eDm_sd, nCm=nCm, nCm_sd=nCm_sd, cCm=cCm, cCm_sd=cCm_sd)
 

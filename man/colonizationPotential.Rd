@@ -2,15 +2,9 @@
 % Please edit documentation in R/colonizationPotential.R
 \name{colonizationPotential}
 \alias{colonizationPotential}
-\title{Determine the colonizationPotential (cP) for all patches}
+\title{Summarize the colonizationPotential (cP) for a riverscape}
 \usage{
-colonizationPotential(
-  habitats,
-  kernel,
-  threshold = 0,
-  cap = FALSE,
-  summarize = TRUE
-)
+colonizationPotential(habitats, kernel, threshold = 0, cap = FALSE)
 }
 \arguments{
 \item{habitats}{Raster containing patches of suitable habitats, coded with values > 0.}
@@ -20,14 +14,12 @@ colonizationPotential(
 \item{threshold}{Minimum of eC at which two patches are connected.}
 
 \item{cap}{If true, values larger than 1 are capped.}
-
-\item{summarize}{If TRUE, a table instead of a raster is returned.}
 }
 \value{
 A table or raster with the colonizationPotential for each Patch
 }
 \description{
-Determine the colonizationPotential (cP) for all patches
+Summarize the colonizationPotential (cP) for a riverscape
 }
 \examples{
 example <- system.file("extdata/cc_clumped_lech_ehd.tif", package = "rconnect")

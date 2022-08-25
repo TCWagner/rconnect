@@ -4,12 +4,20 @@
 \alias{colonizationPotential}
 \title{Determine the colonizationPotential (cP) for all patches}
 \usage{
-colonizationPotential(habitats, kernel, cap = FALSE, summarize = TRUE)
+colonizationPotential(
+  habitats,
+  kernel,
+  threshold = 0,
+  cap = FALSE,
+  summarize = TRUE
+)
 }
 \arguments{
 \item{habitats}{Raster containing patches of suitable habitats, coded with values > 0.}
 
 \item{kernel}{Dispersal kernel of the species.}
+
+\item{threshold}{Minimum of eC at which two patches are connected.}
 
 \item{cap}{If true, values larger than 1 are capped.}
 
@@ -25,6 +33,6 @@ Determine the colonizationPotential (cP) for all patches
 example <- system.file("extdata/cc_clumped_lech_ehd.tif", package = "rconnect")
 habitats_lech <- raster::raster(example)
 sddkernel_chondrilla <- dispersalKernel(cellsize=5, radius=3, decay=0.19)
-cP <- colonizationPotential(habitats_lech, sddkernel_chondrilla, cap=TRUE)
+cP <- colonizationPotential(habitats_lech, sddkernel_chondrilla, threshold=0.01, cap=TRUE)
 
 }

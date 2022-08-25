@@ -2,6 +2,7 @@
 
 export(absoluteConnections)
 export(colonizationPotential)
+export(connectionCapacity)
 export(dispersalKernel)
 export(effectiveConnections)
 export(effectiveConnectionsMatrix)

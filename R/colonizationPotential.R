@@ -1,10 +1,9 @@
-#' Determine the colonizationPotential (cP) for all patches
+#' Summarize the colonizationPotential (cP) for a riverscape
 #'
 #' @param habitats Raster containing patches of suitable habitats, coded with values > 0.
 #' @param kernel Dispersal kernel of the species.
 #' @param threshold Minimum of eC at which two patches are connected.
 #' @param cap If true, values larger than 1 are capped.
-#' @param summarize If TRUE, a table instead of a raster is returned.
 #'
 #' @return A table or raster with the colonizationPotential for each Patch
 #' @export
@@ -16,14 +15,41 @@
 #' cP <- colonizationPotential(habitats_lech, sddkernel_chondrilla, threshold=0.01, cap=TRUE)
 #'
 
-colonizationPotential <- function(habitats, kernel, threshold=0, cap=FALSE, summarize=TRUE){
-  res <- effectiveConnections(habitats, kernel, threshold)
+colonizationPotential <- function(habitats, kernel, threshold=0, cap=FALSE){
+  coef <- 1-attr(kernel,"decay")
+  ecm <- effectiveConnectionsMatrix(habitats, kernel, threshold)
 
-  cp <- mean(res$eC, na.rm=T)
-  if(cap){
-    cp <- min(cp,1)
-  }
+  # calculate eCm
+  res <- colSums(ecm*(ecm>threshold), na.rm=T)
+  efc <- res
+  eCm <- mean(res)
+  eCm_sd <- sd(res)
+
+  # calculate eDm
+  res <- log(res, base=coef)
+  res[res<0] <- 0
+  res <- subset(res, res<Inf)
+  eDm <- mean(res)
+  eDm_sd <- sd(res)
+
+  # calculate nCm
+  res <- colSums(ecm>threshold, na.rm=T)
+  nbc <- res
+  nCm <- mean(res)
+  nCm_sd <- sd(res)
+
+  # calculate CC
+
+  cC <- efc/nbc
+  print(cC)
+  cC[is.na(cC)] <- 0
+
+  cCm <- mean(cC)
+  cCm_sd <- sd(cC)
+
+  cp <- data.frame(habitats=names(habitats),threshold=threshold,cP=eCm, cP_sd=eCm_sd, eD=eDm, eDm_sd=eDm_sd, nCm=nCm, nCm_sd=nCm_sd, cCm=cCm, cCm_sd=cCm_sd)
 
   return(cp)
+
 }
 

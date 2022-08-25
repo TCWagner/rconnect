@@ -26,6 +26,7 @@ colonizationPotential <- function(habitats, kernel, threshold=0, cap=FALSE){
   eCm_sd <- stats::sd(res)
 
   # calculate eDm
+  res <- colSums(ecm, na.rm=T)
   res <- log(res, base=coef)
   res[res<0] <- 0
   res <- subset(res, res<Inf)

@@ -4,7 +4,13 @@
 \alias{colonizationPotential}
 \title{Summarize the colonizationPotential (cP) for a riverscape}
 \usage{
-colonizationPotential(habitats, kernel, threshold = 0, cap = FALSE)
+colonizationPotential(
+  habitats,
+  kernel,
+  threshold = 0,
+  ed_with_threshold = FALSE,
+  cap = FALSE
+)
 }
 \arguments{
 \item{habitats}{Raster containing patches of suitable habitats, coded with values > 0.}
@@ -12,6 +18,8 @@ colonizationPotential(habitats, kernel, threshold = 0, cap = FALSE)
 \item{kernel}{Dispersal kernel of the species.}
 
 \item{threshold}{Minimum of eC at which two patches are connected.}
+
+\item{ed_with_threshold}{If true, only patches within threshold are considered for eDm.}
 
 \item{cap}{If true, values larger than 1 are capped.}
 }

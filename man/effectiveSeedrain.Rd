@@ -4,17 +4,31 @@
 \alias{effectiveSeedrain}
 \title{Determines the effective Seed Rain (eS)}
 \usage{
-effectiveSeedrain(habitats, kernel, summarize = TRUE, fun = NA)
+effectiveSeedrain(
+  habitats,
+  kernel,
+  seedweight = FALSE,
+  suitabilityweight = FALSE,
+  weightmode = "receive",
+  summarize = TRUE,
+  fun = sum
+)
 }
 \arguments{
 \item{habitats}{Raster containing patches of suitable habitats, coded with values > 0.}
 
 \item{kernel}{Dispersal kernel of the species.}
 
+\item{seedweight}{raster containing weight for seed density(e.g. occupancy, seed load ...)}
+
+\item{suitabilityweight}{raster containing weight for habitat suitability}
+
+\item{weightmode}{whether seed rain should be calculated for sending cells or receiving cells. Only used when weights are provided}
+
 \item{summarize}{If true, a summary table will be returned instead of a raster.}
 
 \item{fun}{A function used for summary. If summarize=TRUE and none is provided sum is used.
-If summarize is FALSE and a function is provided, a zoal statistics is applied to the raster}
+If summarize is FALSE and a function is provided, a zonal statistics is applied to the raster}
 }
 \value{
 A raster or a table with the effective seed rain (eS)

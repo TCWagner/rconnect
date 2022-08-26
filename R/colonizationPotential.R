@@ -3,6 +3,7 @@
 #' @param habitats Raster containing patches of suitable habitats, coded with values > 0.
 #' @param kernel Dispersal kernel of the species.
 #' @param threshold Minimum of eC at which two patches are connected.
+#' @param ed_with_threshold If true, only patches within threshold are considered for eDm.
 #' @param cap If true, values larger than 1 are capped.
 #'
 #' @return A table or raster with the colonizationPotential for each Patch
@@ -15,7 +16,7 @@
 #' cP <- colonizationPotential(habitats_lech, sddkernel_chondrilla, threshold=0.01, cap=TRUE)
 #'
 
-colonizationPotential <- function(habitats, kernel, threshold=0, cap=FALSE){
+colonizationPotential <- function(habitats, kernel, threshold=0, ed_with_threshold=FALSE, cap=FALSE){
   coef <- 1-attr(kernel,"decay")
   ecm <- effectiveConnectionsMatrix(habitats, kernel, threshold)
 
@@ -26,6 +27,9 @@ colonizationPotential <- function(habitats, kernel, threshold=0, cap=FALSE){
   eCm_sd <- stats::sd(res)
 
   # calculate eDm
+  if(ed_with_threshold==FALSE){
+    ecm <- effectiveConnectionsMatrix(habitats, kernel, threshold=0)
+  }
   res <- colSums(ecm, na.rm=T)
   res <- log(res, base=coef)
   res[res<0] <- 0
@@ -44,7 +48,7 @@ colonizationPotential <- function(habitats, kernel, threshold=0, cap=FALSE){
   cC <- efc/nbc
 
   cC[is.na(cC)] <- 0
-
+  cC <- subset(cC, cC>0)
   cCm <- mean(cC)
   cCm_sd <- stats::sd(cC)
 

@@ -52,7 +52,7 @@ colonizationPotential <- function(habitats, kernel, threshold=0, ed_with_thresho
   cCm <- mean(cC)
   cCm_sd <- stats::sd(cC)
 
-  cp <- data.frame(habitats=names(habitats),threshold=threshold,cP=eCm, cP_sd=eCm_sd, eD=eDm, eDm_sd=eDm_sd, nCm=nCm, nCm_sd=nCm_sd, cCm=cCm, cCm_sd=cCm_sd)
+  cp <- data.frame(habitats=names(habitats),threshold=threshold,cP=eCm, cP_rsd=eCm_sd/eCm, eD=eDm, eDm_rsd=eDm_sd/eDm, nCm=nCm, nCm_rsd=nCm_sd/nCm, cCm=cCm, cCm_rsd=cCm_sd/cCm)
 
   return(cp)
 

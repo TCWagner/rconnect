@@ -176,8 +176,8 @@ Potential* of our riverscape:
 
 cP <- colonizationPotential(habitats_lech, cckernel)
 cP
-#>              habitats threshold        cP    cP_sd       eD eDm_sd nCm   nCm_sd       cCm    cCm_sd
-#> 1 cc_clumped_lech_ehd         0 0.7765052 1.046019 7.708875 8.4409   2 1.658312 0.3262841 0.3285693
+#>              habitats threshold        cP   cP_rsd       eD  eDm_rsd nCm   nCm_rsd       cCm  cCm_rsd
+#> 1 cc_clumped_lech_ehd         0 0.7765052 1.347085 7.708875 1.094959   2 0.8291562 0.3262841 1.007004
 ```
 
 So, our riverscape has a *colonization Potential* of 0.776 (\~78%) for

@@ -7,13 +7,13 @@
 <!-- badges: end -->
 
 rconnect is a simple package that implements riverscape connectivity
-measures for wind dispersed plants as described by Wagner & Wöllner
-(2022):
+measures for quantifying the colonization potential of wind dispersed
+plants species as described by Wagner & Wöllner (2023):
 
-*absoluteConnections*  
+*effectiveSeedrain*  
 *effectiveConnections*  
 *effectiveDistance*  
-*effectiveSeedrain*
+*colonizationPotential* *absoluteConnections* *connectionCapacity*
 
 It further provides a helper function to create a negative exponential
 dispersal kernel, functions to create a connectivity and distance matrix
@@ -48,7 +48,6 @@ package: *habitats_lech*
 
 ``` r
 library(raster)
-#> Lade nötiges Paket: sp
 library(rconnect)
 
 ## load the example raster with suitable habitats. suitable habitats need to be coded with values > 0
@@ -59,8 +58,8 @@ plot(habitats_lech)
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-Now we the dispersal kernel for the species under consideration as a
-matrix. We can create a simple, negative exponential dispersal kernel
+Now we need the dispersal kernel for the species under consideration as
+a matrix. We can create a simple, negative exponential dispersal kernel
 with the function *dispersalKernel*. Assuming a negative exponential
 decrease of the seeds with distance and a dispersal distance of \~14m
 the decay is 0.19.
@@ -72,83 +71,95 @@ the kernel normalized to sum up to 1.
 
 ``` r
 
-cckernel <- dispersalKernel(cellsize=5, radius=5, decay=0.19)
-#> Lade nötigen Namensraum: igraph
+cckernel <- dispersalKernel(cellsize=5, radius=7, decay=0.19)
 ```
 
-Now we can easily calculate the number of connections (eC) that each
-patch has:
+Lets start to calculate the seed rain that can be exchanged between
+neighboring habitats (*effectiveSeedrain*). If we do not *summarize*,
+the output will be a raster with the relative contribution that each
+cell of an habitat has.
 
 ``` r
 
-nC <- absoluteConnections(habitats_lech, cckernel)
-nC
-#>   patch nC
-#> 1     1  0
-#> 2     2  1
-#> 3     3  2
-#> 4     4  0
-#> 5     5  3
-#> 6     6  1
-#> 7     7  1
-#> 8     8  1
-#> 9     9  0
+eS <- effectiveSeedrain(habitats_lech, cckernel, summarize=F)
+plot(eS)
 ```
 
-However, if we want to have the effective connections or *eC* (that is
-the connections weighted by distance) we can use:
+<img src="man/figures/README-eS-1.png" width="100%" />
+
+Now, lets see how many *effective Connections* a patch has with the
+other patches of the riverscape
+
+``` r
+
+eCM <- effectiveConnectionsMatrix(habitats_lech, cckernel)
+eCM
+#>              [,1]        [,2]      [,3]       [,4]       [,5]      [,6]      [,7]     [,8]       [,9]
+#>  [1,]          NA 0.005021085 0.0000000 0.00000000 0.00000000 0.0000000 0.0000000 0.000000 0.00000000
+#>  [2,] 0.005021085          NA 0.3773102 0.00000000 0.00000000 0.0000000 0.0000000 0.000000 0.00000000
+#>  [3,] 0.000000000 0.377310226        NA 0.06423960 1.45851127 0.0000000 0.0000000 0.000000 0.00000000
+#>  [4,] 0.000000000 0.000000000 0.0642396         NA 0.04449116 0.0000000 0.0000000 0.000000 0.00000000
+#>  [5,] 0.000000000 0.000000000 1.4585113 0.04449116         NA 0.1585712 0.3685038 0.980203 0.03742227
+#>  [6,] 0.000000000 0.000000000 0.0000000 0.00000000 0.15857125        NA 0.0000000 0.000000 0.00000000
+#>  [7,] 0.000000000 0.000000000 0.0000000 0.00000000 0.36850376 0.0000000        NA 0.000000 0.00000000
+#>  [8,] 0.000000000 0.000000000 0.0000000 0.00000000 0.98020300 0.0000000 0.0000000       NA 0.00000000
+#>  [9,] 0.000000000 0.000000000 0.0000000 0.00000000 0.03742227 0.0000000 0.0000000 0.000000         NA
+```
+
+However, if we want to have the total *effective Connections* or *eC*
+that a patch has with all neighbors (that is the connections weighted by
+distance) we can use:
 
 ``` r
 
 eC <- effectiveConnections(habitats_lech, cckernel)
 eC
-#>   patch        eC
-#> 1     1 0.0000000
-#> 2     2 0.1842729
-#> 3     3 0.5721172
-#> 4     4 0.0000000
-#> 5     5 1.0000000
-#> 6     6 0.1258424
-#> 7     7 0.2991850
-#> 8     8 0.5086541
-#> 9     9 0.0000000
+#>   patch         eC
+#> 1     1 0.00000000
+#> 2     2 0.37731023
+#> 3     3 1.90006110
+#> 4     4 0.10873076
+#> 5     5 3.04770271
+#> 6     6 0.15857125
+#> 7     7 0.36850376
+#> 8     8 0.98020300
+#> 9     9 0.03742227
 ```
 
-If we want to have the effective connectivity for our whole riverscape
-we just need to calculate the mean of the effective connections:
+We may want to have this a a raster file that we can use for further
+modeling. So lets set *summarize* to *FALSE*:
 
 ``` r
 
-mean(eC$eC)
-#> [1] 0.2988968
+eCr <- effectiveConnections(habitats_lech, cckernel, summarize=F)
+plot(eCr)
 ```
 
-So, our riverscape has a conectivity of \~30% for Chondrilla
-chondrilloides.
+<img src="man/figures/README-eCr-1.png" width="100%" />
 
-We can now determine the effective distance (*eD*), a measure that tells
-us, how fas away a patch would be from an …
+Similarly, we can calculate the *effective Distance* for each patch
+(*eD*):
 
 ``` r
 
 eD <- effectiveDistance(habitats_lech, cckernel)
 eD
-#>   patch         eD
-#> 1     1         NA
-#> 2     2  4.9962768
-#> 3     3  0.0000000
-#> 4     4 10.9351921
-#> 5     5  0.0000000
-#> 6     6  8.9908412
-#> 7     7  4.9482707
-#> 8     8  0.4196436
-#> 9     9 17.1338503
+#>   patch          eD
+#> 1     1 25.12378155
+#> 2     2  4.56275168
+#> 3     3  0.00000000
+#> 4     4 10.52994343
+#> 5     5  0.00000000
+#> 6     6  8.73928558
+#> 7     7  4.73756397
+#> 8     8  0.09489125
+#> 9     9 15.59165370
 ```
 
-You may wish to have your results a a raster file for further analysis
-instead of a simple table. No problem, just call the respective
-functions with *summarize=FALSE* option and you will get a raster where
-each patch is assigned the respective value:
+We may wish to have your results a raster file for further analysis
+instead of a simple table. No problem, we just call the respective
+functions with *summarize=FALSE* option and will get a raster where each
+patch is assigned the respective value:
 
 ``` r
 
@@ -158,41 +169,29 @@ plot(eDr)
 
 <img src="man/figures/README-eDr-1.png" width="100%" />
 
-Sometimes you may wish to have the cell-by-cell connectivity, or
-*effectiveSeedrain* to use for further modeling:
+Finally we want a summary of our metrics and the total *colonization
+Potential* of our riverscape:
 
 ``` r
 
-eCr <- effectiveSeedrain(habitats_lech, cckernel, summarize=FALSE)
-plot(eCr)
+cP <- colonizationPotential(habitats_lech, cckernel)
+cP
+#>              habitats threshold        cP    cP_sd       eD eDm_sd nCm   nCm_sd       cCm    cCm_sd
+#> 1 cc_clumped_lech_ehd         0 0.7765052 1.046019 7.708875 8.4409   2 1.658312 0.3262841 0.3285693
 ```
 
-<img src="man/figures/README-eCr-1.png" width="100%" />
+So, our riverscape has a *colonization Potential* of 0.776 (\~78%) for
+*Chondrilla chondrilloides*. The average *effective Distance* a patch
+has is 7.7m, clearly within the species dispersal distance. On average,
+each patch has 2 connections with a capacity of 0.33. However, the
+relative standard deviation of all parameters is quite high, indicating
+an unequal distribution of the connectivity. Note, that the average
+*effective Distance* (*eDm*) does only consider connected patches. *nCm*
+gives us the average *number of Connections* a patch has, and *cCm*
+tells us the average *connection Capacity* (relative amount of seeds)
+that can be exchanged by a connection.
 
-And, finally, you may wish to have the effective patch-to-patch
-connectivity and the respective effective distances between patches
-
-``` r
-
-eCM <- effectiveConnectionsMatrix(habitats_lech, cckernel)
-eCM
-#>       [,1]      [,2]      [,3] [,4]      [,5] [,6]       [,7]      [,8] [,9]
-#>  [1,]   NA 0.0000000 0.0000000    0 0.0000000    0 0.00000000 0.0000000    0
-#>  [2,]    0        NA 0.1842729    0 0.0000000    0 0.00000000 0.0000000    0
-#>  [3,]    0 0.1430062        NA    0 0.4291111    0 0.00000000 0.0000000    0
-#>  [4,]    0 0.0000000 0.0000000   NA 0.0000000    0 0.00000000 0.0000000    0
-#>  [5,]    0 0.0000000 0.5933886    0        NA    0 0.06388325 0.4574982    0
-#>  [6,]    0 0.0000000 0.0000000    0 0.1258424   NA 0.00000000 0.0000000    0
-#>  [7,]    0 0.0000000 0.0000000    0 0.2991850    0         NA 0.0000000    0
-#>  [8,]    0 0.0000000 0.0000000    0 0.5086541    0 0.00000000        NA    0
-#>  [9,]    0 0.0000000 0.0000000    0 0.0000000    0 0.00000000 0.0000000   NA
-```
-
-Please note, that the effective distances for a patch cannot be summed
-up or averaged to obtain its total *effectiveDistance*. Use the
-appropriate function *effectiveDistance* instead.
-
-## Finally
+## Final Note
 
 The basic functions of this package, *effectiveConnections* and
 *effectiveSeedrain* provide spatially explicit data if needed. Though

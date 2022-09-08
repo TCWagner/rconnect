@@ -18,13 +18,16 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-rconnect is a simple package that implements riverscape connectivity measures for wind dispersed plants as 
-described by Wagner & Wöllner (2022):
+rconnect is a simple package that implements riverscape connectivity
+measures for quantifying the colonization potential of wind dispersed plants species as described by Wagner & Wöllner
+(2023):
 
-*absoluteConnections*  
+*effectiveSeedrain*  
 *effectiveConnections*  
 *effectiveDistance*  
-*effectiveSeedrain*  
+*colonizationPotential*
+*absoluteConnections*
+*connectionCapacity*
 
 It further provides a helper function to create a negative exponential dispersal kernel, functions to create a connectivity and distance matrix based on effectiveConnections and effectiveDistance and a simple example raster file with suitable habitats.
 
@@ -56,27 +59,38 @@ data(habitats_lech)
 plot(habitats_lech)
 ```
 
-Now we the dispersal kernel for the species under consideration as a matrix. We can create a simple, negative exponential dispersal kernel with the function *dispersalKernel*. 
+Now we need the dispersal kernel for the species under consideration as a matrix. We can create a simple, negative exponential dispersal kernel with the function *dispersalKernel*. 
 Assuming a negative exponential decrease of the seeds with distance and a dispersal distance of ~14m the decay is 0.19. 
 
 To create the kernel, we need to provide the cell size of our raster containing the suitable habitats (5m), and the intended radius of our kernel in cells. By default, the kernel center cell will be set to 0 and the kernel normalized to sum up to 1.
 
 ```{r kernel}
 
-cckernel <- dispersalKernel(cellsize=5, radius=5, decay=0.19)
+cckernel <- dispersalKernel(cellsize=5, radius=7, decay=0.19)
 
 ```
 
-Now we can easily calculate the number of connections (eC) that each patch has:
+Lets start to calculate the seed rain that can be exchanged between neighboring habitats (*effectiveSeedrain*). If we do not *summarize*, the output will be a raster with the relative contribution that each cell of an habitat has.
 
-```{r nC}
+```{r eS}
 
-nC <- absoluteConnections(habitats_lech, cckernel)
-nC
+eS <- effectiveSeedrain(habitats_lech, cckernel, summarize=F)
+plot(eS)
 
 ```
 
-However, if we want to have the effective connections or *eC* (that is the connections weighted by distance) we can use:
+Now, lets see how many *effective Connections* a patch has with the other patches of the riverscape
+
+```{r eCM}
+
+eCM <- effectiveConnectionsMatrix(habitats_lech, cckernel)
+eCM
+```
+
+
+
+
+However, if we want to have the total *effective Connections* or *eC* that a patch has with all neighbors (that is the connections weighted by distance) we can use:
 
 ```{r eC}
 
@@ -85,17 +99,16 @@ eC
 
 ```
 
+We may want to have this a a raster file that we can use for further modeling. So lets set *summarize* to *FALSE*:
 
-If we want to have the effective connectivity for our whole riverscape we just need to calculate the mean of the effective connections:
+```{r eCr}
 
-```{r eCC}
-
-mean(eC$eC)
+eCr <- effectiveConnections(habitats_lech, cckernel, summarize=F)
+plot(eCr)
 
 ```
-So, our riverscape has a conectivity of ~30% for Chondrilla chondrilloides.
 
-We can now determine the effective distance (*eD*), a measure that tells us, how fas away a patch would be from an ... 
+Similarly, we can calculate the *effective Distance* for each patch (*eD*):
 
 ```{r eD}
 
@@ -103,7 +116,7 @@ eD <- effectiveDistance(habitats_lech, cckernel)
 eD
 ```
 
-You may wish to have your results a a raster file for further analysis instead of a simple table. No problem, just call the respective functions with *summarize=FALSE* option and you will get a raster where each patch is assigned the respective value:
+We may wish to have your results a raster file for further analysis instead of a simple table. No problem, we just call the respective functions with *summarize=FALSE* option and  will get a raster where each patch is assigned the respective value:
 
 ```{r eDr}
 
@@ -111,25 +124,27 @@ eDr <- effectiveDistance(habitats_lech, cckernel, summarize=FALSE)
 plot(eDr)
 ```
 
-Sometimes you may wish to have the cell-by-cell connectivity, or *effectiveSeedrain* to use for further modeling:
 
-```{r eCr}
+Finally we want a summary of our metrics and the total *colonization Potential* of our riverscape:
 
-eCr <- effectiveSeedrain(habitats_lech, cckernel, summarize=FALSE)
-plot(eCr)
+
+```{r eCP}
+
+cP <- colonizationPotential(habitats_lech, cckernel)
+cP
+
 ```
 
-And, finally, you may wish to have the effective patch-to-patch connectivity and the respective effective distances between patches
+So, our riverscape has a *colonization Potential* of 0.776 (~78%) for *Chondrilla chondrilloides*. The average *effective Distance* a patch has is 7.7m, clearly within the species dispersal distance. On average, each patch has 2 connections with a capacity of 0.33. However, the relative standard deviation of all parameters is quite high, indicating an unequal distribution of the connectivity. Note, that the average *effective Distance* (*eDm*) does only consider connected patches. *nCm* gives us the average *number of Connections* a patch has, and *cCm* tells us the average *connection Capacity* (relative amount of seeds) that can be exchanged by a connection.
 
-```{r eCM}
 
-eCM <- effectiveConnectionsMatrix(habitats_lech, cckernel)
-eCM
-```
 
-Please note, that the effective distances for a patch cannot be summed up or averaged to obtain its total *effectiveDistance*. Use the appropriate function *effectiveDistance* instead. 
 
-## Finally
+
+
+
+
+## Final Note
 
 
 The basic functions of this package, *effectiveConnections* and *effectiveSeedrain*  provide spatially explicit data if needed. Though currently we do neither consider the actual occupancy of habitats or barriers, both can easily be combined with our functions. The respective data can be used for further modelling. We do not include long distance dispersal here, because here the mechanisms are different and more complex. AA package suitable for this is currently under development.

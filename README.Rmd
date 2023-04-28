@@ -154,5 +154,6 @@ The basic functions of this package, *effectiveConnections* and *effectiveSeedra
 
 Woellner, R., Bräuchler, C., Kollmann, J., & Wagner, T. C. (2022). Biological Flora of Central Europe: Chondrilla chondrilloides (Ard.) H. Karst. Perspectives in Plant Ecology, Evolution and Systematics, 54, 125657.
 
-Wagner, T. C., Woellner, R. (2022). Effective Connectivity and effective Habitat Distance - A new metric to quantify habitat connectivity for plant species in riverscapes. Ecological Indicators.
+Wagner, T. C., Woellner, R. (2022). A new set of metrics to quantify the colonization potential of riverscapes by wind-dispersed
+  plant species. PREPRINT (Version 1) available at Research Square. https://doi.org/10.21203/rs.3.rs-2388009/v1
 

@@ -9,10 +9,10 @@ citEntry(
     person("Romy", "Wöllner", , "romy.woellner@tum.de", role = c("aut"),
            comment = c(ORCID = "XXX"))
            ),
-  journal  = "Ecological Indicators",
-  year     = "2022",
+  journal  = "Preprint; Researchsquare",
+  year     = "2023",
   volume   = 1,
   number   = 0,
   pages    = 1-6,
-  textVersion = paste("Wagner, T.C.,& Wöllner, R. (2022): Effective Connectivity and effective Habitat Distance - A new metric to quantify habitat connectivity for plant species in riverscapes. Ecological Indicators")
+  textVersion = paste("Wagner, T.C.,& Wöllner, R. (2022): A new set of metrics to quantify the colonization potential of riverscapes by wind-dispersed plant species. PREPRINT (Version 1) available at Research Square. https://doi.org/10.21203/rs.3.rs-2388009/v1")
 )

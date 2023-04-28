@@ -16,7 +16,7 @@ Description: Derives the raster based connectivity metrics 'effective seedrain',
       different weights and cost paths. The raster output can be used for modeling.
       Known dispersal distance of the species under consideration and raster with suitable habitat patches (coded with a value > 0) 
       are required. A negative exponential dispersal kernel can be created with the function dispersalKernel. Other kernels can be
-      provided as matrix. Wagner, T. C., & Woellner, R. (2022).
+      provided as matrix. Wagner, T. C., & Woellner, R. (2023).
 License: GPL (>= 3) 
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

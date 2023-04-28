@@ -48,6 +48,7 @@ package: *habitats_lech*
 
 ``` r
 library(raster)
+#> Loading required package: sp
 library(rconnect)
 
 ## load the example raster with suitable habitats. suitable habitats need to be coded with values > 0
@@ -72,6 +73,7 @@ the kernel normalized to sum up to 1.
 ``` r
 
 cckernel <- dispersalKernel(cellsize=5, radius=7, decay=0.19)
+#> Loading required namespace: igraph
 ```
 
 Lets start to calculate the seed rain that can be exchanged between
@@ -94,16 +96,26 @@ other patches of the riverscape
 
 eCM <- effectiveConnectionsMatrix(habitats_lech, cckernel)
 eCM
-#>              [,1]        [,2]      [,3]       [,4]       [,5]      [,6]      [,7]     [,8]       [,9]
-#>  [1,]          NA 0.005021085 0.0000000 0.00000000 0.00000000 0.0000000 0.0000000 0.000000 0.00000000
-#>  [2,] 0.005021085          NA 0.3773102 0.00000000 0.00000000 0.0000000 0.0000000 0.000000 0.00000000
-#>  [3,] 0.000000000 0.377310226        NA 0.06423960 1.45851127 0.0000000 0.0000000 0.000000 0.00000000
-#>  [4,] 0.000000000 0.000000000 0.0642396         NA 0.04449116 0.0000000 0.0000000 0.000000 0.00000000
-#>  [5,] 0.000000000 0.000000000 1.4585113 0.04449116         NA 0.1585712 0.3685038 0.980203 0.03742227
-#>  [6,] 0.000000000 0.000000000 0.0000000 0.00000000 0.15857125        NA 0.0000000 0.000000 0.00000000
-#>  [7,] 0.000000000 0.000000000 0.0000000 0.00000000 0.36850376 0.0000000        NA 0.000000 0.00000000
-#>  [8,] 0.000000000 0.000000000 0.0000000 0.00000000 0.98020300 0.0000000 0.0000000       NA 0.00000000
-#>  [9,] 0.000000000 0.000000000 0.0000000 0.00000000 0.03742227 0.0000000 0.0000000 0.000000         NA
+#>              [,1]        [,2]      [,3]       [,4]       [,5]      [,6]
+#>  [1,]          NA 0.005021085 0.0000000 0.00000000 0.00000000 0.0000000
+#>  [2,] 0.005021085          NA 0.3773102 0.00000000 0.00000000 0.0000000
+#>  [3,] 0.000000000 0.377310226        NA 0.06423960 1.45851127 0.0000000
+#>  [4,] 0.000000000 0.000000000 0.0642396         NA 0.04449116 0.0000000
+#>  [5,] 0.000000000 0.000000000 1.4585113 0.04449116         NA 0.1585712
+#>  [6,] 0.000000000 0.000000000 0.0000000 0.00000000 0.15857125        NA
+#>  [7,] 0.000000000 0.000000000 0.0000000 0.00000000 0.36850376 0.0000000
+#>  [8,] 0.000000000 0.000000000 0.0000000 0.00000000 0.98020300 0.0000000
+#>  [9,] 0.000000000 0.000000000 0.0000000 0.00000000 0.03742227 0.0000000
+#>            [,7]     [,8]       [,9]
+#>  [1,] 0.0000000 0.000000 0.00000000
+#>  [2,] 0.0000000 0.000000 0.00000000
+#>  [3,] 0.0000000 0.000000 0.00000000
+#>  [4,] 0.0000000 0.000000 0.00000000
+#>  [5,] 0.3685038 0.980203 0.03742227
+#>  [6,] 0.0000000 0.000000 0.00000000
+#>  [7,]        NA 0.000000 0.00000000
+#>  [8,] 0.0000000       NA 0.00000000
+#>  [9,] 0.0000000 0.000000         NA
 ```
 
 However, if we want to have the total *effective Connections* or *eC*
@@ -176,8 +188,10 @@ Potential* of our riverscape:
 
 cP <- colonizationPotential(habitats_lech, cckernel)
 cP
-#>              habitats threshold        cP   cP_rsd       eD  eDm_rsd nCm   nCm_rsd       cCm  cCm_rsd
-#> 1 cc_clumped_lech_ehd         0 0.7765052 1.347085 7.708875 1.094959   2 0.8291562 0.3262841 1.007004
+#>              habitats threshold        cP   cP_rsd       eD  eDm_rsd nCm
+#> 1 cc_clumped_lech_ehd         0 0.7765052 1.347085 7.708875 1.094959   2
+#>     nCm_rsd       cCm  cCm_rsd
+#> 1 0.8291562 0.3262841 1.007004
 ```
 
 So, our riverscape has a *colonization Potential* of 0.776 (\~78%) for
@@ -208,6 +222,7 @@ Biological Flora of Central Europe: Chondrilla chondrilloides (Ard.) H.
 Karst. Perspectives in Plant Ecology, Evolution and Systematics, 54,
 125657.
 
-Wagner, T. C., Woellner, R. (2022). Effective Connectivity and effective
-Habitat Distance - A new metric to quantify habitat connectivity for
-plant species in riverscapes. Ecological Indicators.
+Wagner, T. C., Woellner, R. (2022). A new set of metrics to quantify the
+colonization potential of riverscapes by wind-dispersed plant species.
+PREPRINT (Version 1) available at Research Square.
+<https://doi.org/10.21203/rs.3.rs-2388009/v1>

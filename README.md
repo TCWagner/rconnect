@@ -222,7 +222,6 @@ Biological Flora of Central Europe: Chondrilla chondrilloides (Ard.) H.
 Karst. Perspectives in Plant Ecology, Evolution and Systematics, 54,
 125657.
 
-Wagner, T. C., Woellner, R. (2022). A new set of metrics to quantify the
-colonization potential of riverscapes by wind-dispersed plant species.
-PREPRINT (Version 1) available at Research Square.
-<https://doi.org/10.21203/rs.3.rs-2388009/v1>
+Wagner, T. C., Woellner, R. (2023). A new set of metrics and framework 
+to assess the colonization potential of riverscapes by wind-dispersed plant species. Scientific Reports 13(1). 
+<http://dx.doi.org/10.1038/s41598-023-47477-y>

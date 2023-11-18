@@ -13,9 +13,9 @@ plants species as described by Wagner & Wöllner (2023):
 *effectiveSeedrain*  
 *effectiveConnections*  
 *effectiveDistance*  
-*colonizationPotential* 
-*absoluteConnections* 
-*connectionCapacity*
+*colonizationPotential*. 
+*absoluteConnections*  
+*connectionCapacity*  
 
 It further provides a helper function to create a negative exponential
 dispersal kernel, functions to create a connectivity and distance matrix

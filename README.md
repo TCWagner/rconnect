@@ -13,7 +13,9 @@ plants species as described by Wagner & Wöllner (2023):
 *effectiveSeedrain*  
 *effectiveConnections*  
 *effectiveDistance*  
-*colonizationPotential* *absoluteConnections* *connectionCapacity*
+*colonizationPotential* 
+*absoluteConnections* 
+*connectionCapacity*
 
 It further provides a helper function to create a negative exponential
 dispersal kernel, functions to create a connectivity and distance matrix
@@ -223,5 +225,5 @@ Karst. Perspectives in Plant Ecology, Evolution and Systematics, 54,
 125657.
 
 Wagner, T. C., Woellner, R. (2023). A new set of metrics and framework 
-to assess the colonization potential of riverscapes by wind-dispersed plant species. Scientific Reports 13(1). 
+to assess the colonization potential of riverscapes by wind-dispersed plant species. Scientific Reports 13, 20097. 
 <http://dx.doi.org/10.1038/s41598-023-47477-y>

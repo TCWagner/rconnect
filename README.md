@@ -32,6 +32,9 @@ You can install the current development version of rconnect from
 devtools::install_github("TCWagner/rconnect")
 ```
 
+If you use RStudio, you can just download the package as .tgz and install it 
+through Packages - Install - Install from: Package Archive File.
+
 ## Example
 
 Here is a basic example how to work with the package and calculate

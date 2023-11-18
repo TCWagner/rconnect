@@ -215,7 +215,7 @@ currently we do neither consider the actual occupancy of habitats or
 barriers, both can easily be combined with our functions. The respective
 data can be used for further modelling. We do not include long distance
 dispersal here, because here the mechanisms are different and more
-complex. AA package suitable for this is currently under development.
+complex. A package suitable for this is currently under development.
 
 ## References
 

@@ -13,7 +13,7 @@ plants species as described by Wagner & Wöllner (2023):
 *effectiveSeedrain*  
 *effectiveConnections*  
 *effectiveDistance*  
-*colonizationPotential*. 
+*colonizationPotential*   
 *absoluteConnections*  
 *connectionCapacity*  
 
